@@ -1,0 +1,61 @@
+version: "3"
+
+services:
+  redis:
+    image: redis
+    container_name: cost_redis
+    env_file:
+      - .env.py
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"
+
+  django:
+    &django
+    build:
+      context: .
+    image: cost_django
+    container_name: django
+    env_file:
+      - .env.py
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    volumes:
+      - ./:/app/
+    command: "python manage.py runserver 0.0.0.0:8000"
+
+  celeryworker:
+    depends_on:
+      - django
+      - redis
+    image: cost_django
+    container_name: cost_celeryworker
+    volumes:
+      - ./:/app/
+    env_file:
+      - .env.py
+    environment:
+      - DEBUG=1
+      - CELERY_BROKER_URL=redis://redis:6379
+      - CELERY_BACKEND=redis://redis:6379
+    command: sh -c "celery -A config worker -l info"
+
+  celery-beat:
+    depends_on:
+      - redis
+    image: cost_django
+    env_file:
+      - .env.py
+    container_name: cos_celery-beat
+    volumes:
+      - ./:/app/
+    environment:
+      - DEBUG=1
+      - CELERY_BROKER_URL=redis://redis:6379
+      - CELERY_BACKEND=redis://redis:6379
+    command: celery -A config beat -l info

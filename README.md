@@ -2,16 +2,16 @@
 # Test task "Expense Accounting Manager":
 **You need to implement an API to account for user expenses.**
 
-**Technologies:**
+# Technologies:
 - Язык программирования: Python 3.10+   
 - DRF 3+   
 - Соответствие исходного кода PEP 8
 
-**Will be a plus:**
+# Will be a plus:
 - Docker/Docker Compose
 - Project deployment
 
-**Minimum requirements:**
+# Minimum requirements:
 - User registration
 - User authorization (by token)
 - User transactions - CRUD
@@ -36,11 +36,11 @@ The notebooks\_brand table contains data about notebook brands.
 The notebooks\_notebook table contains data about the name of the laptop, its diagonal, width, depth and height,
 and also has a link to the brand to which this model belongs.
 
-**Technologies:**
+# Technologies:
 - PostgreSQL
 - DB dump - test\_db.dump
 
-**Exercise:**
+# Exercise:
 1. Write a query that will count how many laptops are represented in each brand. 
 Sort the data in descending order.
 2. You need to select groups of laptops by size. 
